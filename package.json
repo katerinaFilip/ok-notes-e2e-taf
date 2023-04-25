@@ -1,0 +1,14 @@
+{
+  "name": "ok-notes-e2e-taf",
+  "version": "1.0.0",
+  "description": "Test automation framework for Ok Notes application",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test"
+  },
+  "author": "katerina.filipenua@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.32.3"
+  }
+}
