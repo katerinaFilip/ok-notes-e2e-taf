@@ -4,11 +4,25 @@
   "description": "Test automation framework for Ok Notes application",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test"
+    "lint": "npx eslint .",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "allure:test": "npx playwright test --reporter=line,allure-playwright",
+    "allure:report:generate": "npx allure generate ./allure-report --clean",
+    "allure:report:open": "npx allure open ./allure-report"
   },
   "author": "katerina.filipenua@gmail.com",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.32.3"
+    "@playwright/test": "^1.32.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
+    "allure-commandline": "^2.21.0",
+    "allure-playwright": "^2.2.0",
+    "eslint": "^8.39.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
   }
 }
