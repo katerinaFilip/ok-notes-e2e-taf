@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint .",
-    "test": "npx playwright test --workers=1",
-    "test:headed": "npx playwright test --workers=1 --headed",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
     "allure:test": "npx playwright test --reporter=line,allure-playwright",
     "allure:report:generate": "npx allure generate ./allure-report --clean",
     "allure:report:open": "npx allure open ./allure-report"
