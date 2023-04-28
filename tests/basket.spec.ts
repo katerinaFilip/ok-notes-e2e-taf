@@ -3,6 +3,8 @@ import MainPage from '../pages/main.page';
 import StartPage from '../pages/start.page';
 
 const expectedAppTitle = 'OK-Notes';
+const username = process.env.USER_NAME || "";
+const password = process.env.PASSWORD || "";
 
 test.beforeEach(async ({ page }) => {
   const startPage = new StartPage(page);
@@ -12,7 +14,7 @@ test.beforeEach(async ({ page }) => {
   await expect(startPage.appTitle).toHaveText(expectedAppTitle);
   const loginPage = await startPage.goToLogin();
 
-  const mainPage = await loginPage.login('test', 'test');
+  const mainPage = await loginPage.login(username, password);
   await expect(mainPage.basket).toBeVisible();
 
   await mainPage.clearBasket();
@@ -42,7 +44,7 @@ test('Go to the basket with 1 item without discount', async ({ page }) => {
 
   expect(await mainPage.getBasketItemTitle(0)).
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));
-  expect(await mainPage.getBasketItemPrice(addedItem.itemIndex)).
+  expect(await mainPage.getBasketItemPrice(0)).
     toContain(await mainPage.getItemPrice(addedItem.itemIndex, addedItem.hasDiscount));
 
   const expectedPrice = await mainPage.getItemPriceValue(addedItem.itemIndex, addedItem.hasDiscount);
@@ -66,7 +68,7 @@ test('Go to the basket with 1 item with discount', async ({ page }) => {
 
   expect(await mainPage.getBasketItemTitle(0)).
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));
-  expect(await mainPage.getBasketItemPrice(addedItem.itemIndex)).
+  expect(await mainPage.getBasketItemPrice(0)).
     toContain(await mainPage.getItemPrice(addedItem.itemIndex, addedItem.hasDiscount));
 
   const expectedPrice = await mainPage.getItemPriceValue(addedItem.itemIndex, addedItem.hasDiscount);
@@ -93,11 +95,26 @@ test('Go to the basket with 9 identical items with discount', async ({ page }) =
   expect(await mainPage.getBasketItemTitle(0)).
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));
 
-  const expectedTotalPrice = (await mainPage.getItemPriceValue(addedItem.itemIndex, addedItem.hasDiscount)) * expectedBasketItemsCount;
-  expect(await mainPage.getBasketItemPrice(addedItem.itemIndex)).toContain(String(expectedTotalPrice));
+  const expectedTotalPrice =
+    (await mainPage.getItemPriceValue(addedItem.itemIndex, addedItem.hasDiscount)) * expectedBasketItemsCount;
+  expect(await mainPage.getBasketItemPrice(0)).toContain(String(expectedTotalPrice));
   expect(await mainPage.getBasketPriceValue()).toBe(expectedTotalPrice);
 
   const basketPage = await mainPage.clickGoToBasketPage();
   expect(page.url()).toContain(basketPage.path);
   await expect(basketPage.appTitle).toHaveText(expectedAppTitle);
+});
+
+test.describe('Test with precondition: not empty basket', () => {
+  test.beforeEach(async ({ page }) => {
+    const mainPage = new MainPage(page);
+    const addedItem = { itemIndex: 1, hasDiscount: true };
+    await mainPage.addItemToBasket(addedItem.itemIndex, addedItem.hasDiscount);
+  });
+
+  test('Go to the basket with 9 different items', async ({ page }) => {
+    const mainPage = new MainPage(page);
+    await mainPage.openBasket();
+    await expect(mainPage.basketMenu).toBeVisible();
+  });
 });
