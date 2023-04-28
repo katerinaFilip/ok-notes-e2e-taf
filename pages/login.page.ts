@@ -20,6 +20,7 @@ export default class LoginPage extends BasePage {
         await this.usernameInput.fill(username);
         await this.passwordInput.type(password);
         await this.loginButton.click();
+        await this.page.waitForLoadState('networkidle');
         return new MainPage(this.page);
     }
 }
