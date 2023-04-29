@@ -25,8 +25,8 @@ export default class MainPage extends BasePage {
         this.basketPrice = this.basketMenu.locator('.basket_price');
         this.clearBasketButton = this.basketMenu.locator('a.btn-danger');
         this.goToBasketPageButton = this.basketMenu.locator('a.btn-primary');
-        this.noteItemsWithoutDiscount = page.locator('//div[(contains(@class,"note-item card")) and not(contains(@class,"hasDiscount"))]');
-        this.noteItemsWithDiscount = page.locator('//div[(contains(@class,"note-item card")) and (contains(@class,"hasDiscount"))]');
+        this.noteItemsWithoutDiscount = page.locator('//div[@class="note-list row"]//div[(contains(@class,"note-item card")) and not(contains(@class,"hasDiscount"))]');
+        this.noteItemsWithDiscount = page.locator('//div[@class="note-list row"]//div[(contains(@class,"note-item card")) and (contains(@class,"hasDiscount"))]');
     }
 
     async getBasketItemsCount(): Promise<number> {
