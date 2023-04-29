@@ -11,25 +11,31 @@ test.beforeEach(async ({ page }) => {
   const expectedBasketItemsCount = 0;
 
   await startPage.openPage();
-  await expect(startPage.appTitle).toHaveText(expectedAppTitle);
+  await expect(startPage.appTitle, `Expect title ${expectedAppTitle} to be present at the start page`).
+    toHaveText(expectedAppTitle);
   const loginPage = await startPage.goToLogin();
 
   const mainPage = await loginPage.login(username, password);
-  await expect(mainPage.basket).toBeVisible();
+  await expect(mainPage.basket, 'Expect basket to be visible at the main page after login').
+    toBeVisible();
 
   await mainPage.clearBasket();
-  expect(await mainPage.getBasketItemsCount()).toBe(expectedBasketItemsCount);
+  expect(await mainPage.getBasketItemsCount(), `Expect basket items count to be ${expectedBasketItemsCount} after basket clearing`).
+    toBe(expectedBasketItemsCount);
 });
 
 test('Go to the empty basket', async ({ page }) => {
   const mainPage = new MainPage(page);
   await mainPage.openBasket();
-  await expect(mainPage.basketMenu).toBeVisible();
+  await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
+    toBeVisible();
 
   const basketPage = await mainPage.clickGoToBasketPage();
-  expect(page.url()).toContain(basketPage.path);
-  await expect(basketPage.appTitle).toHaveText(expectedAppTitle);
-  await expect(basketPage.siteError).not.toBeVisible();
+  expect(page.url(), `Expect page url to contain ${basketPage.path} after go to basket page`).
+    toContain(basketPage.path);
+  await expect(basketPage.appTitle, `Expect title ${expectedAppTitle} to be present at the basket page`).
+    toHaveText(expectedAppTitle);
+  await expect(basketPage.siteError, 'Expect basket page not to contain error message').not.toBeVisible();
 });
 
 test('Go to the basket with 1 item without discount', async ({ page }) => {
@@ -38,23 +44,29 @@ test('Go to the basket with 1 item without discount', async ({ page }) => {
 
   const mainPage = new MainPage(page);
   await mainPage.addItemToBasket(addedItem.itemIndex, addedItem.hasDiscount);
-  expect(await mainPage.getBasketItemsCount()).toBe(expectedBasketItemsCount);
+  expect(await mainPage.getBasketItemsCount(), `Expect basket items count to be ${expectedBasketItemsCount} after add 1 item`).
+    toBe(expectedBasketItemsCount);
 
   await mainPage.openBasket();
-  await expect(mainPage.basketMenu).toBeVisible();
+  await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
+    toBeVisible();
 
-  expect(await mainPage.getBasketItemTitle(0)).
+  expect(await mainPage.getBasketItemTitle(0), 'Expect basket item has correct title').
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));
-  expect(await mainPage.getBasketItemPrice(0)).
+  expect(await mainPage.getBasketItemPrice(0), 'Expect basket item has correct price').
     toContain(await mainPage.getItemPrice(addedItem.itemIndex, addedItem.hasDiscount));
 
   const expectedPrice = await mainPage.getItemPriceValue(addedItem.itemIndex, addedItem.hasDiscount);
-  expect(await mainPage.getBasketPriceValue()).toBe(expectedPrice);
+  expect(await mainPage.getBasketPriceValue(), `Expect total basket price to be ${expectedPrice}`).
+    toBe(expectedPrice);
 
   const basketPage = await mainPage.clickGoToBasketPage();
-  expect(page.url()).toContain(basketPage.path);
-  await expect(basketPage.appTitle).toHaveText(expectedAppTitle);
-  await expect(basketPage.siteError).not.toBeVisible();
+  expect(page.url(), `Expect page url to contain ${basketPage.path} after go to basket page`).
+    toContain(basketPage.path);
+  await expect(basketPage.appTitle, `Expect title ${expectedAppTitle} to be present at the basket page`).
+    toHaveText(expectedAppTitle);
+  await expect(basketPage.siteError, 'Expect basket page not to contain error message').
+    not.toBeVisible();
 });
 
 test('Go to the basket with 1 item with discount', async ({ page }) => {
