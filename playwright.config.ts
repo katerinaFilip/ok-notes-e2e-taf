@@ -1,5 +1,6 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 import * as dotenv from 'dotenv';
+import BrowserFactory from './utils/browser.factory';
 dotenv.config();
 
 export default defineConfig({
@@ -27,19 +28,6 @@ export default defineConfig({
   },
 
   projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    BrowserFactory.getBrowserObject()
   ],
 });
