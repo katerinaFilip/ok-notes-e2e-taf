@@ -17,7 +17,7 @@ export default defineConfig({
       {
         detail: true,
         outputFolder: "allure-report",
-        suiteTitle: false,
+        suiteTitle: true,
       },
     ],
   ],
