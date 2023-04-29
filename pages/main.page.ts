@@ -46,7 +46,7 @@ export default class MainPage extends BasePage {
         const buyButton = note.locator('button.actionBuyProduct');
 
         await buyButton.click();
-        await expect(this.basketItemsCount).not.toHaveText(prevBasketItemsCount, { timeout: 5000 });
+        await expect(this.basketItemsCount).not.toHaveText(prevBasketItemsCount, { timeout: 1000 });
     }
 
     async clearBasket() {
@@ -57,7 +57,7 @@ export default class MainPage extends BasePage {
 
             await this.openBasket();
             await this.clearBasketButton.click();
-            await expect(this.basketItemsCount).toHaveText(expectedBasketItemsCount, { timeout: 5000 });
+            await expect(this.basketItemsCount).toHaveText(expectedBasketItemsCount, { timeout: 1000 });
         }
     }
 

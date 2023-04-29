@@ -12,6 +12,7 @@ export default class StartPage extends BasePage {
 
     async goToLogin() {
         await this.loginLink.click();
+        await this.page.waitForLoadState('networkidle');
         return new LoginPage(this.page);
     }
 }
