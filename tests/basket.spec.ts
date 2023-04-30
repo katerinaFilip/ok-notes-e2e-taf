@@ -28,7 +28,7 @@ test('Go to the empty basket', async ({ page }) => {
   const mainPage = new MainPage(page);
   await mainPage.openBasket();
   await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
-    toBeVisible();
+    toBeVisible({ timeout: 2000 });
 
   const basketPage = await mainPage.clickGoToBasketPage();
   expect(page.url(), `Expect page url to contain ${basketPage.path} after go to basket page`).
@@ -49,7 +49,7 @@ test('Go to the basket with 1 item without discount', async ({ page }) => {
 
   await mainPage.openBasket();
   await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
-    toBeVisible();
+    toBeVisible({ timeout: 2000 });
 
   expect(await mainPage.getBasketItemTitle(0), 'Expect basket item has correct title').
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));
@@ -80,7 +80,7 @@ test('Go to the basket with 1 item with discount', async ({ page }) => {
 
   await mainPage.openBasket();
   await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
-    toBeVisible();
+    toBeVisible({ timeout: 2000 });
 
   expect(await mainPage.getBasketItemTitle(0), 'Expect basket item has correct title').
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));
@@ -123,7 +123,7 @@ test('Go to the basket with 9 different items', async ({ page }) => {
     toBe(expectedBasketItemsCount);
   await mainPage.openBasket();
   await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
-    toBeVisible();
+    toBeVisible({ timeout: 2000 });
 
   let checkedBasketItemIndex = 0;
 
@@ -174,7 +174,7 @@ test('Go to the basket with 9 identical items with discount', async ({ page }) =
 
   await mainPage.openBasket();
   await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
-    toBeVisible();
+    toBeVisible({ timeout: 2000 });
 
   expect(await mainPage.getBasketItemTitle(0), 'Expect basket items have correct title').
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));

@@ -30,13 +30,14 @@ export default class MainPage extends BasePage {
     }
 
     async getBasketItemsCount(): Promise<number> {
+        await expect(this.basketItemsCount, "Waiting for basket items count to have numeric value").
+            toHaveText(/\d+/, { timeout: 2000 });
         const countValue = await this.basketItemsCount.textContent();
         return Number(countValue);
     }
 
     async openBasket() {
         await this.basket.click();
-        await this.basketMenu.waitFor({ state: "visible" });
     }
 
     async addItemToBasket(index: number, hasDiscount: boolean) {
@@ -46,7 +47,8 @@ export default class MainPage extends BasePage {
         const buyButton = note.locator('button.actionBuyProduct');
 
         await buyButton.click();
-        await expect(this.basketItemsCount).not.toHaveText(prevBasketItemsCount, { timeout: 1000 });
+        await expect(this.basketItemsCount, `Waiting for basket items count not to have text ${prevBasketItemsCount}`).
+            not.toHaveText(prevBasketItemsCount, { timeout: 1000 });
     }
 
     async clearBasket() {
@@ -56,8 +58,11 @@ export default class MainPage extends BasePage {
             const expectedBasketItemsCount = '0';
 
             await this.openBasket();
+            await expect(this.basketMenu, 'Waiting for basket dropdown menu to be visible after click on basket').
+                toBeVisible({ timeout: 1000 });
             await this.clearBasketButton.click();
-            await expect(this.basketItemsCount).toHaveText(expectedBasketItemsCount, { timeout: 1000 });
+            await expect(this.basketItemsCount, `Waiting for basket items count to have text ${expectedBasketItemsCount}`).
+                toHaveText(expectedBasketItemsCount, { timeout: 1000 });
         }
     }
 
