@@ -7,6 +7,7 @@
     "lint": "npx eslint .",
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
+    "allure:test": "npx playwright test --reporter=line,allure-playwright",
     "allure:report:generate": "npx allure generate ./allure-results --clean",
     "allure:report:open": "npx allure open ./allure-report"
   },
