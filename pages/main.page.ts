@@ -40,10 +40,14 @@ export default class MainPage extends BasePage {
         await this.basket.click();
     }
 
+    async getNoteItem(index: number, hasDiscount: boolean) {
+        const noteItems = hasDiscount ? this.noteItemsWithDiscount : this.noteItemsWithoutDiscount;
+        return noteItems.nth(index);
+    }
+
     async addItemToBasket(index: number, hasDiscount: boolean) {
         const prevBasketItemsCount = await this.basketItemsCount.textContent() || "";
-        const noteItems = hasDiscount ? this.noteItemsWithDiscount : this.noteItemsWithoutDiscount;
-        const note = noteItems.nth(index);
+        const note = await this.getNoteItem(index, hasDiscount);
         const buyButton = note.locator('button.actionBuyProduct');
 
         await buyButton.click();
@@ -74,16 +78,14 @@ export default class MainPage extends BasePage {
     }
 
     async getItemName(index: number, hasDiscount: boolean) {
-        const noteItems = hasDiscount ? this.noteItemsWithDiscount : this.noteItemsWithoutDiscount;
-        const note = noteItems.nth(index);
+        const note = await this.getNoteItem(index, hasDiscount);
         const productName = note.locator('div.product_name');
 
         return await productName.textContent();
     }
 
     async getItemPrice(index: number, hasDiscount: boolean) {
-        const noteItems = hasDiscount ? this.noteItemsWithDiscount : this.noteItemsWithoutDiscount;
-        const note = noteItems.nth(index);
+        const note = await this.getNoteItem(index, hasDiscount);
         const productPrice = note.locator('.product_price');
 
         return Parser.getActualPrice(await productPrice.textContent());

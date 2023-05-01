@@ -111,12 +111,12 @@ test('Go to the basket with 9 different items', async ({ page }) => {
 
   for (let i = 0; i < (await mainPage.noteItemsWithDiscount.all()).length; i++) {
     await mainPage.addItemToBasket(i, true);
-    expectedTotalPrice += await mainPage.getItemPriceValue(initialItem.itemIndex, initialItem.hasDiscount);
+    expectedTotalPrice += await mainPage.getItemPriceValue(i, true);
   }
 
   for (let i = 0; i < (await mainPage.noteItemsWithoutDiscount.all()).length; i++) {
     await mainPage.addItemToBasket(i, false);
-    expectedTotalPrice += await mainPage.getItemPriceValue(initialItem.itemIndex, initialItem.hasDiscount);
+    expectedTotalPrice += await mainPage.getItemPriceValue(i, false);
   }
 
   expect(await mainPage.getBasketItemsCount(), `Expect basket items count to be ${expectedBasketItemsCount} after add 9 items`).
