@@ -10,11 +10,11 @@ export default class BasePage {
         this.page = page;
         this.appTitle = page.locator('a.navbar-brand');
         this.siteError = page.locator('.site-error');
-        this.path = '';
+        this.path = '/';
     }
 
     async openPage() {
-        await this.page.goto(`/${this.path}`);
+        await this.page.goto(`${this.path}`);
         await this.page.waitForLoadState('networkidle');
     }
 }

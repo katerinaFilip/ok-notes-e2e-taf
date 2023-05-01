@@ -10,7 +10,7 @@ export default class LoginPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.path = 'login';
+        this.path = '/login';
         this.usernameInput = page.locator('input#loginform-username');
         this.passwordInput = page.locator('input#loginform-password');
         this.loginButton = page.locator('//button[@type="submit"]');

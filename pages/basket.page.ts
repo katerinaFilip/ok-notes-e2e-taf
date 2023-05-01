@@ -6,6 +6,6 @@ export default class BasketPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.path = 'basket';
+        this.path = '/basket';
     }
 }
