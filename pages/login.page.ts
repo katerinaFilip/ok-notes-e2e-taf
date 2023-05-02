@@ -11,7 +11,7 @@ export default class LoginPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.path = '/login';
-        this.usernameInput = page.locator('input#loginform-username');
+        this.usernameInput = page.locator('input#loginform-username'); //при дальнейшем увеличении количества элементов с таким видом селекторов можно сделать их более универсальными и вынести в base page: (`input#${inputName}`);
         this.passwordInput = page.locator('input#loginform-password');
         this.loginButton = page.locator('//button[@type="submit"]');
     }
