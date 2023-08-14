@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import MainPage from '../pages/main.page';
 import StartPage from '../pages/start.page';
+import { logger } from '../log.conf';
 
 const expectedAppTitle = 'OK-Notes';
 const username = process.env.USER_NAME || "";
@@ -161,21 +162,26 @@ test('Go to the basket with 9 different items', async ({ page }) => {
     not.toBeVisible();
 });
 
-test('Go to the basket with 9 identical items with discount', async ({ page }) => {
+test.only('Go to the basket with 9 identical items with discount', async ({ page }) => {
   const addedItem = { itemIndex: 0, hasDiscount: true };
   const expectedBasketItemsCount = 9;
 
   const mainPage = new MainPage(page);
+  logger.debug('First log message');
   for (let i = 0; i < expectedBasketItemsCount; i++) {
     await mainPage.addItemToBasket(addedItem.itemIndex, addedItem.hasDiscount);
   }
   expect(await mainPage.getBasketItemsCount(), `Expect basket items count to be ${expectedBasketItemsCount} after add 9 items`).
     toBe(expectedBasketItemsCount);
 
+  logger.debug('Second log message');
+
   await mainPage.openBasket();
   await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
     toBeVisible({ timeout: 2000 });
 
+
+  logger.debug('Third log message');
   expect(await mainPage.getBasketItemTitle(0), 'Expect basket items have correct title').
     toBe(await mainPage.getItemName(addedItem.itemIndex, addedItem.hasDiscount));
 
