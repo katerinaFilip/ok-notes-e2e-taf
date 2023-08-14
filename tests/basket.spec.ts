@@ -162,7 +162,7 @@ test('Go to the basket with 9 different items', async ({ page }) => {
     not.toBeVisible();
 });
 
-test.only('Go to the basket with 9 identical items with discount', async ({ page }) => {
+test('Go to the basket with 9 identical items with discount', async ({ page }) => {
   const addedItem = { itemIndex: 0, hasDiscount: true };
   const expectedBasketItemsCount = 9;
 
