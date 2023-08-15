@@ -25,7 +25,7 @@ test.beforeEach(async ({ page }) => {
     toBe(expectedBasketItemsCount);
 });
 
-test('Go to the empty basket ', async ({ page }) => {
+test('Go to the empty basket', async ({ page }) => {
   const mainPage = new MainPage(page);
   await mainPage.openBasket();
   await expect(mainPage.basketMenu, 'Expect basket dropdown menu to be visible after click on basket').
